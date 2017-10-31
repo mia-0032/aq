@@ -79,7 +79,7 @@ module Aq
         kosi = Kosi::Table.new({header: csv.headers})
         print kosi.render(result)
       else
-        print body.read
+        print body.read + "\n"
       end
     end
 
