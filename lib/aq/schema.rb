@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 require 'json'
+require 'aq/error'
 
 module Aq
-  class NotSupportedError < StandardError; end
-  class NotImplementedError < StandardError; end
-
   class Schema
     def initialize
       @schema = []

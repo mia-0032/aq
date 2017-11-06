@@ -21,6 +21,17 @@ module Aq
       Aq::Query.new(options[:bucket], object_prefix).run(query)
     end
 
+    desc "mk NAME", "Create database"
+    option :bucket, desc: 'S3 bucket where the query result is stored.', required: true
+    option :object_prefix, desc: 'S3 object prefix where the query result is stored. Default is `Unsaved/%Y/%m/%d`'
+    option :schema, desc: 'Specify table schema file path if you create new table.', default: nil
+    def mk(name)
+      schema = options[:schema].nil? ? nil : SchemaLoader.new.load(options[:schema])
+      query = QueryBuilder.mk name
+      object_prefix = options[:object_prefix] || "Unsaved/#{Date.today.strftime("%Y/%m/%d")}"
+      Aq::Query.new(options[:bucket], object_prefix).run(query)
+    end
+
     desc "query QUERY", "Run the query"
     option :bucket, desc: 'S3 bucket where the query result is stored.', required: true
     option :object_prefix, desc: 'S3 object prefix where the query result is stored. Default is `Unsaved/%Y/%m/%d`'

@@ -1,4 +1,5 @@
 require_relative '../test_helper'
+require 'aq/error'
 require 'aq/schema'
 
 module Aq
