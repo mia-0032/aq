@@ -23,6 +23,14 @@ $ aq ls --bucket=aws-athena-query-results-xxxx-region
 $ aq ls my_database_name --bucket=aws-athena-query-results-xxxx-region
 ```
 
+### mk
+
+Create database
+
+```bash
+$ aq mk my_database_name --bucket=aws-athena-query-results-xxxx-region
+```
+
 ### query
 
 Run query
