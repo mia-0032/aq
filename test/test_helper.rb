@@ -11,7 +11,6 @@ require 'test/unit'
 require 'test/unit/rr'
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require 'aq'
 
 class Test::Unit::TestCase
 end
