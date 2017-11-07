@@ -32,5 +32,39 @@ module Aq
         end
       end
     end
+
+    sub_test_case 'load' do
+      test 'create table with partition' do
+        schema = SchemaLoader.new.load 'test/resource/schema.json'
+        query = QueryBuilder.load(
+          'my_db.my_table', 's3://hoge/foo/', schema, 'NEWLINE_DELIMITED_JSON', 'dt:string'
+        )
+        expected = <<'SQL'
+CREATE EXTERNAL TABLE IF NOT EXISTS my_db.my_table (
+`str0` STRING,`str1` STRING,`str2` STRING
+)
+PARTITIONED BY (dt string)
+ROW FORMAT SERDE "org.apache.hive.hcatalog.data.JsonSerDe"
+LOCATION "s3://hoge/foo/"
+SQL
+        assert_equal(expected, query)
+      end
+
+      test 'create table without partition' do
+        schema = SchemaLoader.new.load 'test/resource/schema.json'
+        query = QueryBuilder.load(
+          'my_db.my_table', 's3://hoge/foo/', schema, 'NEWLINE_DELIMITED_JSON', nil
+        )
+        expected = <<'SQL'
+CREATE EXTERNAL TABLE IF NOT EXISTS my_db.my_table (
+`str0` STRING,`str1` STRING,`str2` STRING
+)
+
+ROW FORMAT SERDE "org.apache.hive.hcatalog.data.JsonSerDe"
+LOCATION "s3://hoge/foo/"
+SQL
+        assert_equal(expected, query)
+      end
+    end
   end
 end

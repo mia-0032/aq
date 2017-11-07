@@ -31,6 +31,14 @@ Create database
 $ aq mk my_database_name --bucket=aws-athena-query-results-xxxx-region
 ```
 
+### load
+
+Create table and load data
+
+```bash
+$ aq load my_db.my_table s3://my_bucket/my_object_key/ test/resource/schema.json --partitioning dt:string --bucket=aws-athena-query-results-xxxx-region
+```
+
 ### query
 
 Run query

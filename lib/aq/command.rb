@@ -24,10 +24,20 @@ module Aq
     desc "mk NAME", "Create database"
     option :bucket, desc: 'S3 bucket where the query result is stored.', required: true
     option :object_prefix, desc: 'S3 object prefix where the query result is stored. Default is `Unsaved/%Y/%m/%d`'
-    option :schema, desc: 'Specify table schema file path if you create new table.', default: nil
     def mk(name)
-      schema = options[:schema].nil? ? nil : SchemaLoader.new.load(options[:schema])
       query = QueryBuilder.mk name
+      object_prefix = options[:object_prefix] || "Unsaved/#{Date.today.strftime("%Y/%m/%d")}"
+      Aq::Query.new(options[:bucket], object_prefix).run(query)
+    end
+
+    desc "load TABLE SOURCE SCHEMA", "Create table and load data"
+    option :bucket, desc: 'S3 bucket where the query result is stored.', required: true
+    option :object_prefix, desc: 'S3 object prefix where the query result is stored. Default is `Unsaved/%Y/%m/%d`'
+    option :source_format, desc: 'Specify source file data format. Now aq support only NEWLINE_DELIMITED_JSON.', default: 'NEWLINE_DELIMITED_JSON'
+    option :partitioning, desc: 'Specify partition key and type. ex. key1:type1,key2:type2,...', default: nil
+    def load(table, source, schema)
+      schema = SchemaLoader.new.load schema
+      query = QueryBuilder.load table, source, schema, options[:source_format], options[:partitioning]
       object_prefix = options[:object_prefix] || "Unsaved/#{Date.today.strftime("%Y/%m/%d")}"
       Aq::Query.new(options[:bucket], object_prefix).run(query)
     end
