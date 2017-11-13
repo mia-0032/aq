@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 require 'aq/base'
+require 'aq/error'
 require 'aws-sdk-s3'
 require 'csv'
 require 'kosi'
@@ -10,6 +11,7 @@ module Aq
   class Query < Base
     def initialize(bucket, object_prefix)
       super()
+      raise InvalidParameterError.new '`bucket` must be specified.' if bucket.nil? || bucket.empty?
       @bucket = bucket
       @object_prefix = object_prefix
     end

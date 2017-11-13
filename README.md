@@ -13,14 +13,15 @@ $ gem install aq
 ## Usage
 
 All commands need `--bucket` option because Athena stores query result into S3.
+You can specify it by `AQ_DEFAULT_BUCKET` environment variable.
 
 ### ls
 
 Show databases or tables in specified database
 
 ```bash
-$ aq ls --bucket=aws-athena-query-results-xxxx-region
-$ aq ls my_database_name --bucket=aws-athena-query-results-xxxx-region
+$ aq ls
+$ aq ls my_database_name
 ```
 
 ### mk
@@ -28,7 +29,7 @@ $ aq ls my_database_name --bucket=aws-athena-query-results-xxxx-region
 Create database
 
 ```bash
-$ aq mk my_database_name --bucket=aws-athena-query-results-xxxx-region
+$ aq mk my_database_name
 ```
 
 ### load
@@ -36,7 +37,7 @@ $ aq mk my_database_name --bucket=aws-athena-query-results-xxxx-region
 Create table and load data
 
 ```bash
-$ aq load my_db.my_table s3://my_bucket/my_object_key/ test/resource/schema.json --partitioning dt:string --bucket=aws-athena-query-results-xxxx-region
+$ aq load my_db.my_table s3://my_bucket/my_object_key/ test/resource/schema.json --partitioning dt:string
 ```
 
 ### query
@@ -44,7 +45,7 @@ $ aq load my_db.my_table s3://my_bucket/my_object_key/ test/resource/schema.json
 Run query
 
 ```bash
-$ aq query 'SELECT * FROM "test"."test_logs" limit 10;' --bucket=aws-athena-query-results-xxxx-region
+$ aq query 'SELECT * FROM "test"."test_logs" limit 10;'
 ```
 
 ## Development
