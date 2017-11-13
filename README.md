@@ -33,6 +33,14 @@ $ aq ls
 $ aq ls my_database_name
 ```
 
+### head
+
+Show records in specified table
+
+```bash
+$ aq head my_db.my_table
+```
+
 ### mk
 
 Create database
