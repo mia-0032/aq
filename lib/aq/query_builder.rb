@@ -10,6 +10,11 @@ module Aq
       end
     end
 
+    def self.head(table, num)
+      raise InvalidParameterError.new 'The table name must be specified in the format `DATABSE.TABLE`' unless table.include? '.'
+      "SELECT * FROM #{table} LIMIT #{num}"
+    end
+
     def self.mk(name)
       if !name.include? '.'
         "CREATE DATABASE IF NOT EXISTS #{name}"

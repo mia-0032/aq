@@ -21,6 +21,13 @@ module Aq
       Aq::Query.new(options[:bucket], options[:object_prefix]).run(query)
     end
 
+    desc "head TABLE_NAME", "Show records in specified table"
+    option :max_rows, desc: 'This number of rows are printed', default: 100, type: :numeric, aliases: '-n'
+    def head(table)
+      query = QueryBuilder.head table, options[:max_rows]
+      Aq::Query.new(options[:bucket], options[:object_prefix]).run(query)
+    end
+
     desc "mk NAME", "Create database"
     def mk(name)
       query = QueryBuilder.mk name

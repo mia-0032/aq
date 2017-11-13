@@ -19,6 +19,20 @@ module Aq
       end
     end
 
+    sub_test_case 'head' do
+      test 'select' do
+        query = QueryBuilder.head 'my_db.my_table', 10
+        expected = 'SELECT * FROM my_db.my_table LIMIT 10'
+        assert_equal(expected, query)
+      end
+
+      test 'invalid table name' do
+        assert_raise InvalidParameterError do
+          QueryBuilder.head 'my_table', 10
+        end
+      end
+    end
+
     sub_test_case 'mk' do
       test 'create database' do
         query = QueryBuilder.mk 'my_db'
