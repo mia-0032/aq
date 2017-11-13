@@ -13,7 +13,7 @@ module Aq
   class AqCmd < Thor
     package_name 'aq'
     class_option :bucket, desc: 'S3 bucket where the query result is stored. This param can also be specified by AQ_DEFAULT_BUCKET environment variable.', default: ENV['AQ_DEFAULT_BUCKET']
-    class_option :object_prefix, desc: 'S3 object prefix where the query result is stored', default: "Unsaved/#{Date.today.strftime("%Y/%m/%d")}"
+    class_option :object_prefix, desc: 'S3 object prefix where the query result is stored', default: "Unsaved/#{Date.today.strftime('%Y/%m/%d')}"
 
     desc "ls [DATABASE]", "Show databases or tables in specified database"
     def ls(database=nil)
