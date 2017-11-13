@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 require 'date'
+require 'highline/import'
 require 'thor'
 
 require 'aq/query'
@@ -12,7 +13,7 @@ module Aq
   class AqCmd < Thor
     package_name 'aq'
     class_option :bucket, desc: 'S3 bucket where the query result is stored. This param can also be specified by AQ_DEFAULT_BUCKET environment variable.', default: ENV['AQ_DEFAULT_BUCKET']
-    class_option :object_prefix, desc: 'S3 object prefix where the query result is stored', default: "Unsaved/#{Date.today.strftime("%Y/%m/%d")}"
+    class_option :object_prefix, desc: 'S3 object prefix where the query result is stored', default: "Unsaved/#{Date.today.strftime('%Y/%m/%d')}"
 
     desc "ls [DATABASE]", "Show databases or tables in specified database"
     def ls(database=nil)
@@ -32,6 +33,23 @@ module Aq
     def load(table, source, schema)
       schema = SchemaLoader.new.load schema
       query = QueryBuilder.load table, source, schema, options[:source_format], options[:partitioning]
+      Aq::Query.new(options[:bucket], options[:object_prefix]).run(query)
+    end
+
+    desc "rm NAME", "Drop database or table"
+    option :force, desc: 'Skip confirmation if this is set', type: :boolean, aliases: '-f'
+    def rm(name)
+      if options[:force]
+        answer = true
+      else
+        answer = agree("Would you remove #{name}? (y)es or (n)o")
+      end
+      unless answer
+        puts 'Canceled'
+        exit 1
+      end
+
+      query = QueryBuilder.rm name
       Aq::Query.new(options[:bucket], options[:object_prefix]).run(query)
     end
 

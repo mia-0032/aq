@@ -15,6 +15,15 @@ $ gem install aq
 All commands need `--bucket` option because Athena stores query result into S3.
 You can specify it by `AQ_DEFAULT_BUCKET` environment variable.
 
+### help
+
+Display command help
+
+```bash
+$ aq help
+$ aq help [COMMAND]
+```
+
 ### ls
 
 Show databases or tables in specified database
@@ -38,6 +47,15 @@ Create table and load data
 
 ```bash
 $ aq load my_db.my_table s3://my_bucket/my_object_key/ test/resource/schema.json --partitioning dt:string
+```
+
+### rm
+
+Drop database or table
+
+```bash
+$ aq rm my_db
+$ aq rm my_db.my_table
 ```
 
 ### query

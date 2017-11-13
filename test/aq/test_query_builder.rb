@@ -66,5 +66,19 @@ SQL
         assert_equal(expected, query)
       end
     end
+
+    sub_test_case 'rm' do
+      test 'drop database' do
+        query = QueryBuilder.rm 'my_db'
+        expected = 'DROP DATABASE IF EXISTS my_db'
+        assert_equal(expected, query)
+      end
+
+      test 'drop table' do
+        query = QueryBuilder.rm 'my_db.my_table'
+        expected = 'DROP TABLE IF EXISTS my_db.my_table'
+        assert_equal(expected, query)
+      end
+    end
   end
 end
