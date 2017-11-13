@@ -22,10 +22,11 @@ Gem::Specification.new do |spec|
   spec.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "thor"
+  spec.add_dependency "thor", "~> 0.0"
   spec.add_dependency "aws-sdk-athena", "~> 1.0"
   spec.add_dependency "aws-sdk-s3", "~> 1.0"
   spec.add_dependency "kosi", "~> 1.0"
+  spec.add_dependency "highline", "~> 1.0"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"

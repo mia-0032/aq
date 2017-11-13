@@ -36,5 +36,13 @@ ROW FORMAT SERDE "#{serde}"
 LOCATION "#{source}"
 SQL
     end
+
+    def self.rm(name)
+      if !name.include? '.'
+        "DROP DATABASE IF EXISTS #{name}"
+      else
+        "DROP TABLE IF EXISTS #{name}"
+      end
+    end
   end
 end
